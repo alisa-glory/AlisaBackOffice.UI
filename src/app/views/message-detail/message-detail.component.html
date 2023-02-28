@@ -1,0 +1,62 @@
+<div class="my-container" *ngIf="messageTrans">
+    <mat-card-content>
+    <h2>Line message from user:</h2> 
+    <p>Id: {{ messageTrans.id }}</p>
+    <p>userId: {{ messageTrans.userId }}</p>
+    <p>replyToken: {{ messageTrans.replyToken }}</p>
+    <p>messageId: {{ messageTrans.messageId }}</p>
+    <p>messageText: {{ messageTrans.messageText }}</p>
+    <p>messageDateTime: {{ messageTrans.messageDateTime }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>Translation:</h2>    
+    <p>requestMessageLanguage: {{ messageTrans.requestMessageLanguage }}</p>
+    <p>isRequestMessageTranslate: {{ messageTrans.isRequestMessageTranslate }}</p>
+    <p>requestMessageTranslatedText: {{ messageTrans.requestMessageTranslatedText }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>Prompt:</h2>    
+    <pre> {{ messageTrans.prompt }} </pre>
+    <h2>ResponseMessage:</h2>
+    <pre> {{ messageTrans.responseMessage }} </pre>
+
+    <mat-divider></mat-divider>
+    <h2>ResponseType:</h2>   
+    <p>{{ messageTrans.responseType }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>Translation:</h2>    
+    <p>responseMessageLanguage: {{ messageTrans.responseMessageLanguage }}</p>
+    <p>isResponseMessageTranslate: {{ messageTrans.isResponseMessageTranslate }}</p>
+    <p>responseMessageTranslatedText: {{ messageTrans.responseMessageTranslatedText }}</p>
+    <p>responseMessageTranslatedTextLanguage: {{ messageTrans.responseMessageTranslatedTextLanguage }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>ReplyMessage to user:</h2>    
+    <pre> {{ messageTrans.replyMessage }} </pre>
+
+    <mat-divider></mat-divider> 
+    <h2>GPT3 Info:</h2> 
+    <p>responseTimestamp: {{ messageTrans.responseTimestamp }}</p>
+    <p>promptTokens: {{ messageTrans.promptTokens }}</p>
+    <p>completionTokens: {{ messageTrans.completionTokens }}</p>
+    <p>totalTokens: {{ messageTrans.totalTokens }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>Session:</h2> 
+    <p>questionLevel: {{ messageTrans.questionLevel }}</p>
+    <p>questionNo: {{ messageTrans.questionNo }}</p>
+    <p>questionRef: {{ messageTrans.questionRef }}</p>
+
+    <mat-divider></mat-divider>
+    <h2>Status:</h2> 
+    <p>success: {{ messageTrans.success }}</p>
+    <p>errorMessage: {{ messageTrans.errorMessage }}</p>
+    <p>createdAt: {{ messageTrans.createdAt }}</p>
+    <p>updatedAt: {{ messageTrans.updatedAt }}</p>
+
+    <mat-divider></mat-divider>
+    <p>embeddedId: {{ messageTrans.embeddedId }}</p>
+    <p>otherData: {{ messageTrans.otherData }}</p>
+</mat-card-content>
+</div>

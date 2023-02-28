@@ -1,1 +1,147 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+/* For use in src/lib/core/theming/_palette.scss */
+$yellow-palet: (
+    50 : #fef3e2,
+    100 : #fce2b6,
+    200 : #facf85,
+    300 : #f8bb54,
+    400 : #f7ad30,
+    500 : #f59e0b,
+    600 : #f4960a,
+    700 : #f28c08,
+    800 : #f08206,
+    900 : #ee7003,
+    A100 : #ffffff,
+    A200 : #ffeee1,
+    A400 : #ffd0ae,
+    A700 : #ffc195,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+/* For use in src/lib/core/theming/_palette.scss */
+$green-palet: (
+    50 : #eaf9f6,
+    100 : #ccf0e8,
+    200 : #aae7d9,
+    300 : #87ddc9,
+    400 : #6ed5be,
+    500 : #54ceb2,
+    600 : #4dc9ab,
+    700 : #43c2a2,
+    800 : #3abc99,
+    900 : #29b08a,
+    A100 : #f1fffb,
+    A200 : #beffeb,
+    A400 : #8bffdc,
+    A700 : #71ffd4,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+$AlisaBackOffice-primary: mat.define-palette($yellow-palet);
+$AlisaBackOffice-accent: mat.define-palette($green-palet, A700, A800, A900);
+
+// The warn palette is optional (defaults to red).
+$AlisaBackOffice-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$AlisaBackOffice-theme: mat.define-light-theme((
+  color: (
+    primary: $AlisaBackOffice-primary,
+    accent: $AlisaBackOffice-accent,
+    warn: $AlisaBackOffice-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($AlisaBackOffice-theme);
+
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* By Tanachote */
+.table-title{
+  display: flex;
+  column-gap: 1rem;
+}
+
+h2.table-caption{
+  margin-left: 5px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.add-button{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.filter_panel{
+  display: inline-flex;
+  column-gap: 1rem;
+  /* justify-content:space-between; */
+  width: 100%;
+}
+
+input.my-filter{
+  margin-top: 12px;
+}
+
+.my-column-filter{
+  width: 100%;
+}
+
+.my-container{
+  margin-top: 50px;
+  padding: 2rem; 
+  width: 95%; 
+  /* margin: auto; */
+}

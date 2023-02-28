@@ -1,0 +1,142 @@
+<div class="my-container">
+    <!-- <div class="table-title">
+        <h2 class="table-caption">Message Transactions</h2>
+        <button mat-flat-button color="primary" class="add-button" (click)="donothing(null)">
+            <mat-icon>add</mat-icon>
+            <span> เพิ่ม</span>
+        </button>
+    </div> -->
+
+    <div class="filter_panel">
+        <mat-form-field>
+            <input class="my-filter" matInput (input)="filterData($event)" autocomplete="off" placeholder="Filter">
+        </mat-form-field>
+        <mat-form-field class="my-column-filter" appearance="standard">
+            <mat-label>Filter Columns</mat-label>
+            <mat-select (selectionChange)="loadData()" [(ngModel)]="selectedColumns" multiple>
+                <mat-option *ngFor="let column of filterColumns" [value]="column">{{column}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element; let rowIndex = index;"> {{(rowIndex+1)+(pageIndex*pageSize)}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="uerId">
+            <th mat-header-cell *matHeaderCellDef> UserId </th>
+            <td mat-cell *matCellDef="let element"> {{element.uerId}}</td>
+        </ng-container> -->
+
+
+        <!-- <ng-container matColumnDef="imageUrl">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> รูปภาพ </th>
+            <td mat-cell *matCellDef="let element"> 
+                <img style="width: 50px; height: 50px;" [src]="element.imageUrl" />
+            </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="messageDateTime">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> MessageDateTime </th>
+            <td mat-cell *matCellDef="let element"> {{element.messageDateTime| date:"yyyy-MM-dd HH:mm:ss"}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="messageText">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> RequestMessage </th>
+            <td mat-cell *matCellDef="let element" class="ellipsis-cell"> {{element.messageText}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="responseTimestamp">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ResponseTime </th>
+            <td mat-cell *matCellDef="let element"> {{element.responseTimestamp}} </td>
+        </ng-container> -->
+
+        <!-- <ng-container matColumnDef="responseTimestamp">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ResponseTimestamp </th>
+            <td mat-cell *matCellDef="let element"> {{element.responseTimestamp | date:"dd-MM-yyyy HH:mm:ss"}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="replyMessage">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ReplyMessage </th>
+            <!-- <td mat-cell *matCellDef="let element" class="reply-message">
+                <span class="ellipsis-cell">{{ element.replyMessage }}</span>
+              </td> -->
+            <td mat-cell *matCellDef="let element" class="ellipsis-cell"> {{ element.replyMessage }} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="religionTh">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ศาสนา </th>
+            <td mat-cell *matCellDef="let element">{{ element.religionTh }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ทีอยู่ </th>
+            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="address2">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ตำบล/แขวง, อำเภอ/เขต, จังหวัด, รหัสไปรษณีย์</th>
+            <td mat-cell *matCellDef="let element">{{ element.address2 }}</td>
+        </ng-container> -->
+
+        <!-- <ng-container matColumnDef="tambonTh">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> ตำบล/แขวง </th>
+            <td mat-cell *matCellDef="let element">{{ element.tambonTh }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="districtTh">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> อำเภอ/เขต </th>
+            <td mat-cell *matCellDef="let element">{{ element.districtTh }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="provinceTh">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> จังหวัด </th>
+            <td mat-cell *matCellDef="let element">{{ element.provinceTh }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="postcode">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> รหัสไปรษณีย์ </th>
+            <td mat-cell *matCellDef="let element">{{ element.postcode }}</td>
+        </ng-container> -->
+
+        <!-- <ng-container matColumnDef="phoneNo">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> เบอร์ติดต่อ </th>
+            <td mat-cell *matCellDef="let element">{{ element.phoneNo }}</td>
+        </ng-container> -->
+
+        <!-- actions -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="text-align: left;"> Actions </th>
+            <td mat-cell *matCellDef="let element;">
+                <!-- <button mat-icon-button color="primary" (click)="donothing(element)">
+                    <mat-icon aria-label="Edit">edit</mat-icon>
+                </button>
+
+                <button mat-icon-button color="accent" (click)="donothing(element)">
+                    <mat-icon aria-label="Delete">delete</mat-icon>
+                </button> -->
+
+                <button mat-button color="primary" [routerLink]="['/messagedetail', element.id]">View Detail</button>
+
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator #paginator class="my-paginator" (page)="pageChanged($event)" [length]="length"
+        [pageSize]="pageSize" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
+        [hidePageSize]="false" [pageIndex]="pageIndex" aria-label="Select page">
+    </mat-paginator>
+
+</div>

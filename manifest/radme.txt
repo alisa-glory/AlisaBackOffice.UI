@@ -1,0 +1,105 @@
+Quick setup — if you’ve done this kind of thing before
+or	
+https://github.com/alisa-glory/AlisaBackOffice.UI.git
+Get started by creating a new file or uploading an existing file. We recommend every repository include a README, LICENSE, and .gitignore.
+
+…or create a new repository on the command line
+echo "# AlisaBackOffice.UI" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/alisa-glory/AlisaBackOffice.UI.git
+git push -u origin main
+…or push an existing repository from the command line
+git remote add origin https://github.com/alisa-glory/AlisaBackOffice.UI.git
+git branch -M main
+git push -u origin main
+…or import code from another repository
+You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
+
+##################################################
+# Themes
+# Color1 = #F59E0B
+# Color2 = #54CEB2
+# Color3 = #FAF4F9
+# Color4 = #FFF8D1
+# Color5 = #EAEAEA
+# Color6 = #FF040F
+
+# Add Material
+ng add @angular/material
+# Chose custom
+# Set up global Angular Material typography style? Yes
+# Set up browser animations for Angular Material? Yes
+
+# Create material module in folder shared
+ng g m shared/material --flat --dry-run
+
+# Material core
+node_modules\@angular\material\core\theming
+node_modules\@angular\material\core\theming\_palette.scss
+
+How to change Angular Material colors
+https://www.youtube.com/watch?v=6Yg_jDFsY1E
+
+Angular Material palette generator
+http://mcg.mbitson.com/#!?mcgpalette0=%23f1c232
+
+# Uninstall Angular Material
+npm uninstall @angular/material
+
+# admin
+ng g m admin --dry-run
+ng generate module admin --route admin --module app.module --dry-run
+
+# Create admin views app/admin/views then open terminal in folder app/admin/views
+ng g c home --dry-run
+ng g c users --dry-run
+
+# Install @auth0/angular-jwt for decript Token (JwtHelperService)
+npm install @auth0/angular-jwt
+
+# Add Admin Guard
+ng g guard guard/admin --dry-run
+# Select CanActivate
+
+# Add Auth Guard
+ng g guard auth/auth --dry-run
+# Select CanActivate
+
+# Add Auth Service
+ng g service auth/auth --dry-run
+
+# Create app/layouts then open terminal in folder layouts
+ng g c login-layout --dry-run
+ng g c main-layout --dry-run
+
+# Create app/views then open terminal in folder views
+ng g c login-form --dry-run
+
+# Add common Service
+ng g service xxx
+
+อย่ายิง API หลายครั้งเกินความจำเป็น มารู้จัก interceptor และทำ caching กันดีกว่า - Angular
+https://www.youtube.com/watch?v=0_rPPvvnS-I
+app/interceptors
+ng g interceptor caching --dry-run
+providers: [
+AuthService, AuthGuard, AdminGuard,
+{
+    provide: HTTP_INTERCEPTORS,
+    useClass: CachingInterceptor,
+    multi: true
+},
+
+Mat-Icon List : 900+ Angular Material Icons
+https://www.angularjswiki.com/angular/angular-material-icons-list-mat-icon-list/
+
+การตัดคำ เป็นจุดไข่ปลา ...
+https://stackblitz.com/edit/text-overflow-on-mat-table-using-display-flex-vz5wh7?file=app%2Ftable-basic-flex-example.css
+mat-cell > span.ellipsis {
+   text-overflow: ellipsis; 
+   overflow: hidden; 
+   white-space: nowrap;
+}
