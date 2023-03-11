@@ -1,0 +1,64 @@
+aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 577169709734.dkr.ecr.ap-southeast-1.amazonaws.com
+docker build -t 577169709734.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100 .
+
+#dev
+docker run --restart=always -d -p 4200:80 --name alisa-backoffice-ui-v100 577169709734.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100
+
+#prod
+docker run --restart=always -d -p 4200:80 --name alisa-backoffice-ui-v100 577169709734.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100
+
+docker push 577169709734.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100
+
+
+###############################################################################
+# SSH Remote
+chmod 0400 /mnt/d/Glory/Credentials/alisa-key.pem
+
+api.backoffice.dev1970.com 54.254.202.189
+# dev-al-backoffice
+ssh -i "/mnt/d/Glory/Credentials/alisa-key.pem" root@ec2-54-254-202-189.ap-southeast-1.compute.amazonaws.com
+
+# alisa-backoffice-api
+ssh -i "/mnt/d/Glory/Credentials/alisa-key.pem" root@ec2-13-250-233-7.ap-southeast-1.compute.amazonaws.com
+
+###############################################################################
+docker network list
+docker network create alisa-net
+docker network inspect alisa-net
+docker network connect alisa-net alisa-backoffice-ui-v100
+docker network disconnect -f  data_default  alisa-backoffice-ui-v100
+docker network rm alisa-net
+
+#########################################################################################
+Test
+#########################################################################################
+docker exec -it alisa-backoffice-ui-v100 /bin/sh
+docker exec -it api-nginx /bin/bash
+apt-get update
+apt-get install iputils-ping -y
+apt-get install curl -y
+apt-get install vim -y
+ping ui-nginx
+Result...
+PING ui-nginx (172.19.0.3) 56(84) bytes of data.
+64 bytes from ui-nginx.my-net (172.19.0.3): icmp_seq=1 ttl=64 time=0.070 ms
+
+
+docker exec -it ui-nginx /bin/bash
+apt-get update
+apt-get install iputils-ping -y
+ping api-nginx
+Result...
+PING api-nginx (172.19.0.2) 56(84) bytes of data.
+64 bytes from api-nginx.my-net (172.19.0.2): icmp_seq=1 ttl=64 time=0.063 ms
+
+#########################################################################################
+Dynamically Set Angular Environment Variables in Docker
+https://nkpremices.com/dynamically-set-angular-env-variables-in-docker/
+#########################################################################################
+
+Angular - A minimalistic approach to runtime configurations in docker containers
+https://calzone.proofofpizza.com/tech/tutorial/Angular-environment-variables-at-runtime/
+
+Building and serving Angular apps
+https://angular.io/guide/build

@@ -3,23 +3,22 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { GetEmbeddedDto } from '../models/get-embed-dto';
-import { MessageTransaction } from '../models/messages-transaction';
 import { PaginatedResult } from '../models/pagination';
 import { TableDataParams } from '../models/tableDataParams';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class EmbedingService {
   transApiUrl: string = environment.transApiUrl;
   embedApiUrl: string = environment.embedApiUrl;
   backOfficeApiUrl: string = environment.backOfficeApiUrl;
 
-  paginatedResult: PaginatedResult<MessageTransaction[]> = new PaginatedResult<any[]>();
+  paginatedResult: PaginatedResult<GetEmbeddedDto[]> = new PaginatedResult<any[]>();
 
   constructor(private http: HttpClient) {}
 
-  getMessages(p: TableDataParams) {
+  getAllEmbeddedData(p: TableDataParams) {
     console.log('api p =>', p);
     let params = new HttpParams();
 
@@ -35,7 +34,7 @@ export class MessageService {
     console.log('HttpParams =>', params);
 
     return this.http
-      .get<MessageTransaction[]>(this.backOfficeApiUrl + '/api/MessageTransactions', {
+      .get<GetEmbeddedDto[]>(this.backOfficeApiUrl + '/api/embeding', {
         observe: 'response',
         params,
       })
@@ -53,26 +52,8 @@ export class MessageService {
       );
   }
 
-  getMessage(id: number): Observable<MessageTransaction>{
-    return this.http.get<MessageTransaction>(this.backOfficeApiUrl + '/api/messagetransactions/'+ id);
+
+  getEmbeddedData(id: number): Observable<GetEmbeddedDto>{
+    return this.http.get<GetEmbeddedDto>(this.backOfficeApiUrl + '/api/embedding/'+ id);
   }
-
-
-  // addCustomer(customer: any) {
-  //   return this.http.post<MessageTransactions>(
-  //     this.baseApiUrl + '/api/customers',
-  //     customer
-  //   );
-  // }
-
-  // updateCustomer(customer: any, id: string) {
-  //   return this.http.put<MessageTransactions>(
-  //     this.baseApiUrl + '/api/customers/' + id,
-  //     customer
-  //   );
-  // }
-
-  // deleteCustomer(id: string) {
-  //   return this.http.delete(this.baseApiUrl + '/api/customers/' + id);
-  // }
 }

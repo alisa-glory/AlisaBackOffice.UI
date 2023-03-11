@@ -1,0 +1,49 @@
+/* Structure */
+table {
+    width: 100%;
+  }
+  
+  th{
+    font-size:1em;
+    font-weight: bold;
+  }
+  .mat-form-field {
+    font-size: 14px;
+    /* width: 100%; */
+    max-width: 20rem;
+  }
+  
+
+
+
+  /* .add-button{
+    max-height: 35px;
+    margin-top: 12px;
+  } */
+
+  .mat-card-sm-image{
+    max-height: 50px;
+  }
+
+  .ellipsis-cell {
+    max-width: 500px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    
+    &.nowrap {
+      white-space: nowrap;
+    }
+  }
+  
+  // td.mat-cell {
+  //   &.reply-message {
+  //     .ellipsis-cell {
+  //       max-width: 300px;
+  //       overflow: hidden;
+  //       white-space: nowrap;
+  //       text-overflow: ellipsis;
+  //     }
+  //   }
+  // }
+  

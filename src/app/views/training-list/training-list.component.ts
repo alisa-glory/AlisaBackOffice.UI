@@ -1,18 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { MessageTransaction } from 'src/app/models/messages-transaction';
 import { Pagination } from 'src/app/models/pagination';
 import { TableDataParams } from 'src/app/models/tableDataParams';
-import { MessageService } from 'src/app/services/message.service';
+import { TrainingDto } from 'src/app/models/training-dto';
+import { TrainingService } from 'src/app/services/training.service';
+import { CompletionEditorComponent } from '../completion-editor/completion-editor.component';
 
 @Component({
-  selector: 'app-messages-list',
-  templateUrl: './messages-list.component.html',
-  styleUrls: ['./messages-list.component.scss']
+  selector: 'app-training-list',
+  templateUrl: './training-list.component.html',
+  styleUrls: ['./training-list.component.scss']
 })
-export class MessagesListComponent implements OnInit {
+export class TrainingListComponent implements OnInit {
 
   isLoading = false;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -24,23 +25,17 @@ export class MessagesListComponent implements OnInit {
   pageSize: number = 10;
   pageIndex: number = 0;
 
-  messageTrans: MessageTransaction[] = [];
+  public messageTrans: TrainingDto[] = [];
   displayedColumns: string[] = [
-    'no',
-    // 'id',
-    // 'userId',
+    'id',
     'messageDateTime',
-    'messageText',
-    // 'responseType',
-    // 'isResponseMessageTranslate',
-    // 'responseTimestamp',
-    'replyMessage',
-    
-    // 'promptTokens',
-    // 'completionTokens',
-    // 'totalTokens',
-    // 'questionLevel',
-    // 'questionNo',
+    // 'messageText',
+    'requestMessageTranslatedText',
+    'responseMessage',
+    // 'embeddedId',
+    'embeddedPrompt',
+    'embeddedCompletion',
+    'otherData',
     // 'questionRef',
     // 'success',
     // 'errorMessage',
@@ -49,18 +44,18 @@ export class MessagesListComponent implements OnInit {
   ];
 
   filterColumns: string[] = [
-    'messageText',
-    // 'responseType',
-    // 'replyMessage',
+    'ID',
+    'UserMessage',
+    'DB-Question',
   ];
 
   selectedColumns: string[] = [
-    'messageText',
-    // 'responseType',
-    // 'replyMessage',
+    'UserMessage',
+    // 'embeddedPrompt',
+    // 'otherData',
   ];
 
-  dataSource: MatTableDataSource<MessageTransaction> = new MatTableDataSource();
+  // dataSource: MatTableDataSource<TrainingDto> = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -68,8 +63,11 @@ export class MessagesListComponent implements OnInit {
   sortByField: string = '';
   sortByOrder: string = '';
 
+  public isEditAble: boolean = false;
+
   constructor(
-    private messageService: MessageService,
+    private messageService: TrainingService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -79,8 +77,8 @@ export class MessagesListComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.sort.sortChange.subscribe(
+    // this.dataSource.paginator = this.paginator;
+    this.sort?.sortChange.subscribe(
       (res:any) => {
         console.log('sortChange =>',res);
         this.pageNumber = 1;
@@ -123,7 +121,7 @@ export class MessagesListComponent implements OnInit {
           this.pageIndex = this.pagination.currentPage - 1;
           this.length = this.pagination.totalItems;
 
-          this.dataSource = new MatTableDataSource(this.messageTrans);
+          // this.dataSource = new MatTableDataSource(this.messageTrans);
           this.isLoading = false;
           console.log('loadData => ', this.pagination);
           console.log(this.messageTrans);
@@ -167,9 +165,49 @@ export class MessagesListComponent implements OnInit {
     this.loadData();
   }
 
-  // donothing(row: any){
+  onUpdateStatusChange(element: any) {
+    let databaseStatus = JSON.parse(element.databaseStatus ?? true)
+    console.log("databaseStatus type:"+typeof(databaseStatus)+ "=" +databaseStatus);
 
-  // }
+    let internetStatus = JSON.parse(element.internetStatus ?? false)
+    console.log("internetStatus type:"+typeof(internetStatus)+ "=" +internetStatus);
+
+    let updateStatus = JSON.parse(element.updateStatus ?? false)
+    console.log("updateStatus type:"+typeof(updateStatus)+ "=" +updateStatus);
+    console.log("updateStatus type:"+typeof(element.updateStatus)+ "=" +element.updateStatus);
+    
+    this.isEditAble = false;
+
+    if(element.databaseStatus === undefined && element.internetStatus === undefined && element.updateStatus === undefined){
+      element.trainingStatus = "None";
+    }
+    else if(databaseStatus===true && internetStatus===true && updateStatus==false){
+      element.trainingStatus = "Fix";
+    }
+    else if(databaseStatus===true && internetStatus===false && updateStatus==false){
+      element.trainingStatus = "Fix";
+    }
+    else if(databaseStatus===false && internetStatus===true && updateStatus==false){
+      element.trainingStatus = "Update from interneted";
+    }
+    else if(databaseStatus===false && internetStatus===false && updateStatus==false){
+      element.trainingStatus = "Update from human ";
+      this.isEditAble = true;
+    }
+    else if(internetStatus===true && updateStatus===true){
+      element.trainingStatus = "Update Everyday";
+    }
+    else if(internetStatus==false && updateStatus===true){
+      element.trainingStatus = "Bug";
+      this.isEditAble = true;
+    }else{
+      element.trainingStatus = "Fix";
+    }
+
+   
+  }
+  
+
 
   // addCustomer() {
   //   const dialogRef = this.dialog.open(CustomerDetailComponent, {
@@ -185,19 +223,19 @@ export class MessagesListComponent implements OnInit {
   //   });
   // }
 
-  // updateCustomer(row: any) {
-  //   const dialogRef = this.dialog.open(MessageDetailComponent, {
-  //     width: '50%',
-  //     data: row,
-  //   });
+  updateCompletion(row: any) {
+    const dialogRef = this.dialog.open(CompletionEditorComponent, {
+      width: '50%',
+      data: row,
+    });
 
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //     if (result === 'update') {
-  //       this.loadData();
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      if (result === 'update') {
+        this.loadData();
+      }
+    });
+  }
 
   // deleteCustomer(row: Customer): void {
   //   let confirmMessage: string = `Do you want to delete ${row.firstName+"  "+row.lastName}?`;

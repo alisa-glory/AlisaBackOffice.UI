@@ -6,8 +6,7 @@ import { AccountService } from '../services/account.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
-
+export class ManagerGuard implements CanActivate {
   public appUserRole: any;
 
   constructor(
@@ -25,7 +24,7 @@ export class AdminGuard implements CanActivate {
           console.log("main-layout","role response:",response,"FromToken:",appUserRoleFromToken);
         });    
 
-        let isAllowed = this.auth.isRolesAuthorized("Admin",this.appUserRole);
+        let isAllowed = this.auth.isRolesAuthorized(["Admin", "Manager"],this.appUserRole);
 
         console.log("isLoggedIn:",true,"isAllowed:",isAllowed);        
         if(!isAllowed){
@@ -43,4 +42,3 @@ export class AdminGuard implements CanActivate {
   }
   
 }
-

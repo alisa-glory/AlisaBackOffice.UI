@@ -1,0 +1,82 @@
+/* Structure */
+table, td {
+  width: 100%;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th{
+  font-size:1em;
+  font-weight: bold;
+}
+.mat-form-field {
+  font-size: 14px;
+  /* width: 100%; */
+  max-width: 20rem;
+}
+
+
+.caption{
+  font-weight: 500;
+}
+
+.mt10{
+  margin-top: 10px;
+}
+  .in-line{
+    display: inline;
+  }
+
+/* .add-button{
+  max-height: 35px;
+  margin-top: 12px;
+} */
+
+// .mat-card-sm-image{
+//   max-height: 50px;
+// }
+
+.ellipsis-cell {
+  max-width: 500px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  
+  &.nowrap {
+    white-space: nowrap;
+  }
+}
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: inline-flex;
+  align-content: center;
+  align-items: center;
+  margin-right: 10px;
+  height: 35px;
+  padding: 0;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+.mat-icon-button{
+  width: 25px;
+}
+
+.result{
+  width: 210px;
+}
+
+// .mat-radio-button{
+//   height: 15px;
+// }
+
+// .mat-radio-group{
+//   height: 20px;
+//   margin: 0;
+// }

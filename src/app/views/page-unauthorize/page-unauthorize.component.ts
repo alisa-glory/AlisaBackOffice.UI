@@ -12,4 +12,15 @@ export class PageUnauthorizeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // goBack(): void {
+  //   // if ((<any>this.location).back()) {
+  //   //   // Navigated back
+  //   // } else {
+  //   //   // No previous page in history, navigate to home
+  //   //   this.router.navigate(['/']);
+  //   // }
+
+  //   this.router.navigate(['/']);
+  // }
+    
 }

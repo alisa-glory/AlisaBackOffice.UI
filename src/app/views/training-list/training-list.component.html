@@ -1,0 +1,84 @@
+<div class="my-container">
+
+    <div class="filter_panel">
+        <mat-form-field>
+            <input class="my-filter" matInput (input)="filterData($event)" autocomplete="off" placeholder="Filter">
+        </mat-form-field>
+        <mat-form-field class="my-column-filter" appearance="standard">
+            <mat-label>Filter Columns</mat-label>
+            <mat-select (selectionChange)="loadData()" [(ngModel)]="selectedColumns" multiple>
+                <mat-option *ngFor="let column of filterColumns" [value]="column">{{column}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+    <app-data-notfound *ngIf="messageTrans === null || messageTrans.length === 0"></app-data-notfound>
+
+    <mat-card *ngFor="let element of messageTrans" style="margin-top: 15px;">
+        <div style="margin-top: 8px;">
+            <span class="caption">ID : </span><span style="display: inline-block; width: 100px;">{{element.id}}</span>
+            <span class="caption">DateTime : </span>
+            <span style="display: inline-block; width: 150px;">{{element.messageDateTime | date:"yyyy-MM-dd HH:mm:ss"}}</span>
+        </div>
+
+        <div class="mt10"><span class="caption">UserMessage : </span>{{element.messageText}}</div>
+        <div><span class="caption">ReplyMessage : </span>{{element.replyMessage}}</div>
+        <div class="mt10"><span class="caption">RequestMsg : </span>{{element.requestMessageTranslatedText}}</div>
+        <div><span class="caption">ResponseMsg : </span>{{element.responseMessage}}</div>
+        <div class="mt10"><span class="caption">DB-Question : </span>{{element.embeddedPrompt}}</div>
+        <div>
+            <span class="caption">DB-Answer :
+                <button mat-icon-button color="primary" (click)="updateCompletion(element)" *ngIf="isEditAble">
+                    <mat-icon style="font-size: 14px;" aria-label="Edit">edit</mat-icon>
+                </button>
+            </span>{{element.embeddedCompletion}}
+        </div>
+        <div class="mt10"><span class="caption">InternetAnswer : </span>{{element.otherData}}</div>
+
+        <div fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px;">
+            <mat-card class="example-section" fxFlex="25">
+                <label class="example-margin caption">Database:</label>
+                <mat-radio-group [(ngModel)]="element.databaseStatus" (change)="onUpdateStatusChange(element)">
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='true'>ข้อมูลถูกต้องแล้ว</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='false'>ยังไม่ถูกต้อง</mat-radio-button>
+                </mat-radio-group>
+            </mat-card>
+
+            <mat-card class="example-section" fxFlex="25">
+                <label class="example-margin caption">Internet:</label>
+                <mat-radio-group [(ngModel)]="element.internetStatus" (change)="onUpdateStatusChange(element)">
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='true'>ข้อมูลถูกต้องแล้ว</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='false'>ยังไม่ถูกต้อง</mat-radio-button>
+                </mat-radio-group>
+            </mat-card>
+
+            <mat-card class="example-section">
+                <label class="example-margin caption">Update:</label>
+                <mat-radio-group [(ngModel)]="element.updateStatus" (change)="onUpdateStatusChange(element)">
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='true'>ต้องอัพเดทเป็นระยะ</mat-radio-button>
+                    <mat-radio-button color="primary" class="example-margin"
+                        value='false'>ไม่จำเป็นต้องอัพเดท</mat-radio-button>
+                </mat-radio-group>
+            </mat-card>
+
+            <mat-card class="example-section result">
+                <label class="example-margin caption">Result:</label>
+                <span>{{element.trainingStatus}}</span>
+            </mat-card>
+
+            <button mat-button color="primary">Confirm</button>
+        </div>
+    </mat-card>
+
+    <mat-paginator #paginator class="my-paginator" (page)="pageChanged($event)" [length]="length" [pageSize]="pageSize"
+        [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions" [hidePageSize]="false"
+        [pageIndex]="pageIndex" aria-label="Select page">
+    </mat-paginator>
+
+</div>

@@ -1,0 +1,58 @@
+
+How To Build An Angular App Once And Deploy It To Multiple Environments
+https://mokkapps.de/blog/how-to-build-an-angular-app-once-and-deploy-it-to-multiple-environments/
+
+#Dockerize Angular Application
+https://medium.com/codex/dockerize-angular-application-69e7503d1816
+
+docker build -t alisa-backoffice-ui:latest .
+docker build -t alisa-backoffice-ui:v100 .
+docker build -t 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100 .
+docker images
+docker tag alisa-backoffice-ui:100 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100
+docker push 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:100
+
+#If build error
+npm install --force
+or
+npm install --legacy-peer-deps
+
+https://stackoverflow.com/questions/71066810/could-not-resolve-peer-dependency-between-my-angular-app-and-my-custom-angular-l
+https://github.com/angular/angular-cli/issues/21204
+
+# Dev env
+docker run -d -p 8080:80 --name alisa-backoffice-ui-v1 alisa-backoffice-ui:latest
+
+# Production env
+docker run -d -p 4200:80 --name alisa-backoffice-ui-v1 alisa-backoffice-ui:latest
+docker run -d -p 4200:80 --name alisa-backoffice-ui-v100 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:v100
+
+docker ps -a
+
+# Rename
+docker tag alisa-backoffice-ui:v1000 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:v1000
+
+# Push to ECR
+docker push 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/alisa-backoffice-ui:v1000
+
+ข้อผิดพลาด 404 ของการรีเฟรชหน้าด้วย Angular, VueJs, NGINX และ Docker
+https://medium.com/@bbie.eng/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%9C%E0%B8%B4%E0%B8%94%E0%B8%9E%E0%B8%A5%E0%B8%B2%E0%B8%94-404-%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B5%E0%B9%80%E0%B8%9F%E0%B8%A3%E0%B8%8A%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-angular-vuejs-nginx-%E0%B9%81%E0%B8%A5%E0%B8%B0-docker-f31766ee7a21
+
+How can I dockerize my angular app for production?
+https://stackoverflow.com/questions/67788588/how-can-i-dockerize-my-angular-app-for-production
+
+# Save Image to file
+docker save -o alisa-backoffice-ui.tar alisa-backoffice-ui:latest
+
+# Load Image from file
+docker load --input alisa-backoffice-ui.tar
+
+# Explode container
+docker exec -it 97e9 /bin/sh
+
+Dockerize angular app with example
+https://techincent.com/dockerize-angular-app-with-example/
+
+
+🛑Deploy Angular App on AWS 🛑 Deploy Angular on Nginx 🛑
+https://www.youtube.com/watch?v=23UepoxHT_c

@@ -32,7 +32,7 @@ export class MainLayoutComponent implements OnInit {
     });    
   }
 
-  isAuthorized(allowedRoles: any){
+  isAuthorized(allowedRoles: string | string[]){
     return this.auth.isRolesAuthorized(allowedRoles, this.appUserRole);
   }
 

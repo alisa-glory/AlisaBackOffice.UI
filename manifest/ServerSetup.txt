@@ -1,0 +1,121 @@
+yum update -y
+yum install epel-release -y
+yum -y install gcc unzip curl wget
+yum -y groupinstall "Development Tools"
+yum -y install openssl-devel bzip2-devel libffi-devel xz-devel
+
+########## Optionals ############
+yum install -y python3
+
+# Install node js
+curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
+yum install -y nodejs
+#######################
+
+### Install Docker ###
+yum install -y yum-utils
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin    
+systemctl start docker
+docker -v
+docker run hello-world
+docker images
+docker ps -a
+# finish
+
+### Install aws cli ###
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+aws --version
+
+$ aws configure
+user: ecr-credentials
+Access key ID: AKIAQ4N35BVTLJTZCUUI
+Secret access key: 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
+Default region name [ap-southeast-1]:
+Default output format [json]:
+
+# Ecr info
+# https://docs.aws.amazon.com/powershell/latest/userguide/pstools-getting-set-up-windows.html
+# Install-Module -Name AWS.Tools.Installer -Force
+# Install-AWSToolsModule AWS.Tools.ECR
+# Install-AWSToolsModule AWS.Tools.EC2,AWS.Tools.S3 -CleanUp
+
+# Login ECR
+aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com
+
+docker tag ca-ui:100 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/ca-ui:100
+docker push 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/ca-ui:100
+
+docker pull 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/ca-ui:100
+docker tag 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/ca-ui:100 ca-ui:100
+
+# local
+docker run --name ca-ui-v100 4200:80 -d ca-ui:100
+
+# server
+docker run --name ca-ui-v100 --restart always -p 127.0.0.1:4200:80 -d 061060484454.dkr.ecr.ap-southeast-1.amazonaws.com/ca-ui:100
+
+yum install nginx -y
+
+
+nginx -t
+tail -f /var/log/nginx/error.log
+
+systemctl start nginx
+systemctl enable nginx
+systemctl status nginx
+
+# check firewall
+netstat -tulpn
+
+# check
+firewall-cmd --permanent --zone=public --add-service=http
+
+yum install -y firewalld
+firewall-cmd --permanent --zone=public --add-service=http
+systemctl start firewalld
+systemctl status firewalld
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-service=https
+
+firewall-cmd --reload
+
+# config
+copy clinic-assistant.online.conf
+to /etc/nginx/conf.d
+or vi /etc/nginx/conf.d/clinic-assistant.online.conf
+
+# Solving "nginx: could not build server_names_hash" error
+https://handcodedstudio.co.uk/tips/solving-nginx-could-not-build-server-names-hash-error/
+You can resolve the error, by adding this line to nginx.conf in the http block.
+server_names_hash_bucket_size 128;
+
+# If 502 Bad Gateway
+#check
+getenforce
+setenforce 0
+#set new config
+getsebool -a | grep httpd
+# find httpd_can_network_connect --> off
+setsebool -P httpd_can_network_connect on
+setenforce 1
+
+# ssl
+yum search certbot
+
+# Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: yum
+cat /var/run/yum.pid
+# then copy output pid
+kill -9 <pid>
+yum install certbot-nginx
+certbot
+nginx -s reload
+
+#service nginx status
+#service nginx start
+

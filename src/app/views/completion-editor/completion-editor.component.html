@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>Update Database Q&A</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="editorForm" fxLayout="column">
+    <div>
+        <label>ID : </label>{{trainingData.id}}
+    </div>
+    <!-- <div fxLayout="row" fxLayoutGap="10px">
+      <mat-form-field appearance="standard" fxFlex="50">
+        <mat-label>Id</mat-label>
+        <input matInput name="id" formControlName="id" readonly>
+      </mat-form-field>
+    </div> -->
+    
+    
+    <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field appearance="standard" fxFlex="25">
+            <mat-label>Question</mat-label>
+            <textarea class="question" matInput name="embeddedPrompt" formControlName="embeddedPrompt" readonly></textarea>
+          </mat-form-field>   
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="10px">
+        <mat-form-field appearance="standard" fxFlex="25">
+            <mat-label>Answer</mat-label>
+            <textarea id="answer" matInput name="embeddedCompletion" formControlName="embeddedCompletion"></textarea>
+          </mat-form-field>   
+    </div>
+
+  </form>
+
+
+</mat-dialog-content>
+
+<div class="full-width" mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" (click)="saveCompletion()">Save</button>
+</div>

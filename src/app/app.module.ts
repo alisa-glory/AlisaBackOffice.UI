@@ -19,6 +19,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AdminGuard } from './guard/admin.guard';
 import { MessageDetailComponent } from './views/message-detail/message-detail.component';
+import { TrainingListComponent } from './views/training-list/training-list.component';
+import { CompletionEditorComponent } from './views/completion-editor/completion-editor.component';
+import { DataNotfoundComponent } from './views/data-notfound/data-notfound.component';
+import { EmbedListComponent } from './views/embed-list/embed-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { MessageDetailComponent } from './views/message-detail/message-detail.co
     PageUnauthorizeComponent,
     AboutComponent,
     MessagesListComponent,
-    MessageDetailComponent
+    MessageDetailComponent,
+    TrainingListComponent,
+    CompletionEditorComponent,
+    DataNotfoundComponent,
+    EmbedListComponent
   ],
   imports: [
     BrowserModule,

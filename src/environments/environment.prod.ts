@@ -1,7 +1,9 @@
 export const environment = {
   production: true,
   // apiUrl: 'https://service.clinic-assistant.online',
-  apiUrl: 'http://localhost:5000',
+  embedApiUrl: 'http://embed.alisa-ai.com',
+  transApiUrl: 'http://trans.alisa-ai.com',
+  backOfficeApiUrl:'https://api.backoffice.dev1970.com',
   appTitle: 'Alisa BackOffice',
   appVersion: require('../../package.json').version
 

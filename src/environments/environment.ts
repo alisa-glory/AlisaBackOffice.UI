@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7242',
+  embedApiUrl: 'http://embed.alisa-ai.com',
+  transApiUrl: 'http://trans.alisa-ai.com',
+  backOfficeApiUrl:'https://localhost:7242',
+
   appTitle: 'Alisa BackOffice',
   appVersion: require('../../package.json').version+' (Dev)'
 

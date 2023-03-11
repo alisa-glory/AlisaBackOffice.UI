@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = environment.apiUrl;
+  backOfficeApiUrl = environment.backOfficeApiUrl;
 
   private appUserName$ = new BehaviorSubject<string>('');
   private appUserRole$ = new BehaviorSubject<string>('');

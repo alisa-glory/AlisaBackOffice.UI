@@ -1,21 +1,21 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { GetEmbeddedDto } from '../models/get-embed-dto';
-import { MessageTransaction } from '../models/messages-transaction';
 import { PaginatedResult } from '../models/pagination';
 import { TableDataParams } from '../models/tableDataParams';
+import { TrainingDto } from '../models/training-dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessageService {
+export class TrainingService {
+
   transApiUrl: string = environment.transApiUrl;
   embedApiUrl: string = environment.embedApiUrl;
   backOfficeApiUrl: string = environment.backOfficeApiUrl;
 
-  paginatedResult: PaginatedResult<MessageTransaction[]> = new PaginatedResult<any[]>();
+  paginatedResult: PaginatedResult<TrainingDto[]> = new PaginatedResult<TrainingDto[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -35,7 +35,7 @@ export class MessageService {
     console.log('HttpParams =>', params);
 
     return this.http
-      .get<MessageTransaction[]>(this.backOfficeApiUrl + '/api/MessageTransactions', {
+      .get<TrainingDto[]>(this.backOfficeApiUrl + '/api/MessageTransactions/TrainingMessages', {
         observe: 'response',
         params,
       })
@@ -53,26 +53,12 @@ export class MessageService {
       );
   }
 
-  getMessage(id: number): Observable<MessageTransaction>{
-    return this.http.get<MessageTransaction>(this.backOfficeApiUrl + '/api/messagetransactions/'+ id);
+  updateCompletion(trainingData: any, id: number) {
+    return this.http.put<TrainingDto>(
+      this.backOfficeApiUrl + '/api/messagetransactions/' + id, trainingData);
   }
-
-
-  // addCustomer(customer: any) {
-  //   return this.http.post<MessageTransactions>(
-  //     this.baseApiUrl + '/api/customers',
-  //     customer
-  //   );
+  // getMessage(id: number): Observable<MessageTransaction>{
+  //   return this.http.get<MessageTransaction>(this.baseApiUrl + '/api/messagetransactions/'+ id);
   // }
 
-  // updateCustomer(customer: any, id: string) {
-  //   return this.http.put<MessageTransactions>(
-  //     this.baseApiUrl + '/api/customers/' + id,
-  //     customer
-  //   );
-  // }
-
-  // deleteCustomer(id: string) {
-  //   return this.http.delete(this.baseApiUrl + '/api/customers/' + id);
-  // }
 }

@@ -64,6 +64,10 @@ npm install @auth0/angular-jwt
 ng g guard guard/admin --dry-run
 # Select CanActivate
 
+# Add Manager Guard
+ng g guard guard/manager --dry-run
+# Select CanActivate
+
 # Add Auth Guard
 ng g guard auth/auth --dry-run
 # Select CanActivate
@@ -103,3 +107,7 @@ mat-cell > span.ellipsis {
    overflow: hidden; 
    white-space: nowrap;
 }
+
+
+Full Stack Dev: เข้าใจการทำงานของ JWT Authentication
+https://www.youtube.com/watch?v=Sw-k9j2NeO8

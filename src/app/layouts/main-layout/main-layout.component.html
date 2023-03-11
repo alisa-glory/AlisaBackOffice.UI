@@ -9,35 +9,39 @@
                 <span>Home</span>
             </a>
   
-            <a mat-list-item routerLink="messages">
-                <mat-icon>message</mat-icon>
-                <span>Messages</span>
-            </a>
-  
-            <a mat-list-item routerLink="appointments">
-                <mat-icon>image</mat-icon>
-                <span>Generated Images</span>
-            </a>
-  
-            <a mat-list-item routerLink="monthly-appointments">
-                <mat-icon>photo_size_select_large</mat-icon>
-                <span>Upscaled Images</span>
-            </a>
-  
-            <a mat-list-item routerLink="transactions">
-                <mat-icon>view_list</mat-icon>
-                <span>Embedded Data</span>
-            </a>
-
-            <a mat-list-item routerLink="transactions">
-                <mat-icon>list_alt</mat-icon>
-                <span>Pre Embedding Data</span>
-            </a>
-            <mat-divider></mat-divider>
-            <a mat-list-item routerLink="transactions">
+            <a mat-list-item routerLink="training">
                 <mat-icon>tune</mat-icon>
                 <span>Embedded Training</span>
             </a>
+
+            <section *ngIf="isAuthorized(['Admin', 'Manager'])">
+                <mat-divider></mat-divider>
+                <a mat-list-item routerLink="messages">
+                    <mat-icon>message</mat-icon>
+                    <span>Messages</span>
+                </a>
+    
+                <a mat-list-item routerLink="appointments">
+                    <mat-icon>image</mat-icon>
+                    <span>Generated Images</span>
+                </a>
+    
+                <a mat-list-item routerLink="monthly-appointments">
+                    <mat-icon>photo_size_select_large</mat-icon>
+                    <span>Upscaled Images</span>
+                </a>
+    
+                <a mat-list-item routerLink="embedded-list">
+                    <mat-icon>view_list</mat-icon>
+                    <span>Embedded Data</span>
+                </a>
+
+                <a mat-list-item routerLink="transactions">
+                    <mat-icon>list_alt</mat-icon>
+                    <span>Pre Embedding Data</span>
+                </a>
+            </section>         
+
             <mat-divider></mat-divider>
             <a mat-list-item routerLink="about">
                 <mat-icon>help</mat-icon>

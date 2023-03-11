@@ -2,17 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MessageTransaction } from 'src/app/models/messages-transaction';
+import { GetEmbeddedDto } from 'src/app/models/get-embed-dto';
 import { Pagination } from 'src/app/models/pagination';
 import { TableDataParams } from 'src/app/models/tableDataParams';
+import { EmbedingService } from 'src/app/services/embeding.service';
 import { MessageService } from 'src/app/services/message.service';
 
 @Component({
-  selector: 'app-messages-list',
-  templateUrl: './messages-list.component.html',
-  styleUrls: ['./messages-list.component.scss']
+  selector: 'app-embed-list',
+  templateUrl: './embed-list.component.html',
+  styleUrls: ['./embed-list.component.scss']
 })
-export class MessagesListComponent implements OnInit {
+export class EmbedListComponent implements OnInit {
 
   isLoading = false;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -24,43 +25,26 @@ export class MessagesListComponent implements OnInit {
   pageSize: number = 10;
   pageIndex: number = 0;
 
-  messageTrans: MessageTransaction[] = [];
+  embeddedData: GetEmbeddedDto[] = [];
   displayedColumns: string[] = [
     'no',
-    // 'id',
-    // 'userId',
-    'messageDateTime',
-    'messageText',
-    // 'responseType',
-    // 'isResponseMessageTranslate',
-    // 'responseTimestamp',
-    'replyMessage',
-    
-    // 'promptTokens',
-    // 'completionTokens',
-    // 'totalTokens',
-    // 'questionLevel',
-    // 'questionNo',
-    // 'questionRef',
-    // 'success',
-    // 'errorMessage',
-    // 'updatedAt',
+    'createdAt',
+    'category',
+    'prompt',
+    'completion',
+    'nTokens',
     'actions',
   ];
 
   filterColumns: string[] = [
-    'messageText',
-    // 'responseType',
-    // 'replyMessage',
+    'prompt',
   ];
 
   selectedColumns: string[] = [
-    'messageText',
-    // 'responseType',
-    // 'replyMessage',
+    'prompt',
   ];
 
-  dataSource: MatTableDataSource<MessageTransaction> = new MatTableDataSource();
+  dataSource: MatTableDataSource<GetEmbeddedDto> = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
@@ -69,7 +53,7 @@ export class MessagesListComponent implements OnInit {
   sortByOrder: string = '';
 
   constructor(
-    private messageService: MessageService,
+    private embedingService: EmbedingService,
   ) {}
 
   ngOnInit(): void {
@@ -114,19 +98,19 @@ export class MessagesListComponent implements OnInit {
       sortByOrder: this.sortByOrder
     };
     
-    this.messageService.getMessages(params).subscribe({
+    this.embedingService.getAllEmbeddedData(params).subscribe({
       next: (res) => {
         if (res.result && res.pagination) {
-          this.messageTrans = res.result;
+          this.embeddedData = res.result;
           this.pagination = res.pagination;
 
           this.pageIndex = this.pagination.currentPage - 1;
           this.length = this.pagination.totalItems;
 
-          this.dataSource = new MatTableDataSource(this.messageTrans);
+          this.dataSource = new MatTableDataSource(this.embeddedData);
           this.isLoading = false;
           console.log('loadData => ', this.pagination);
-          console.log(this.messageTrans);
+          console.log(this.embeddedData);
         }
       },
       error: (err) => {
@@ -151,7 +135,7 @@ export class MessagesListComponent implements OnInit {
 
     if (isLoadData) {
       this.loadData();
-      console.log('PageChanged loadData:', this.messageTrans);
+      console.log('PageChanged loadData:', this.embeddedData);
     }
   }
 
@@ -167,60 +151,4 @@ export class MessagesListComponent implements OnInit {
     this.loadData();
   }
 
-  // donothing(row: any){
-
-  // }
-
-  // addCustomer() {
-  //   const dialogRef = this.dialog.open(CustomerDetailComponent, {
-  //     width: '50%',
-  //     data: null,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //     if (result === 'add') {
-  //       this.loadData();
-  //     }
-  //   });
-  // }
-
-  // updateCustomer(row: any) {
-  //   const dialogRef = this.dialog.open(MessageDetailComponent, {
-  //     width: '50%',
-  //     data: row,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //     if (result === 'update') {
-  //       this.loadData();
-  //     }
-  //   });
-  // }
-
-  // deleteCustomer(row: Customer): void {
-  //   let confirmMessage: string = `Do you want to delete ${row.firstName+"  "+row.lastName}?`;
-  //   const dialogRef = this.dialog.open(ConfirmDeleteComponent, {
-  //     width: '350px',
-  //     data: confirmMessage,
-  //     // data: row,
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //     if (result) {
-  //       this.messageService.deleteCustomer(row.id).subscribe({
-  //         next: (res) => {
-  //           console.log("DeleteCustomer Info:",res);
-  //           this.loadData();
-  //         },
-  //         error: (err) => {
-  //           // alert('Error while deleting the customer!!');
-  //           console.log("DeleteCustomer Error:",err);
-  //         },
-  //       });
-  //     }
-  //   });
-  // }
 }

@@ -10,6 +10,10 @@ import { LoginFormComponent } from './views/login-form/login-form.component';
 import { PageUnauthorizeComponent } from './views/page-unauthorize/page-unauthorize.component';
 import { MessagesListComponent } from './views/messages-list/messages-list.component';
 import { MessageDetailComponent } from './views/message-detail/message-detail.component';
+import { AdminGuard } from './guard/admin.guard';
+import { ManagerGuard } from './guard/manager.guard';
+import { TrainingListComponent } from './views/training-list/training-list.component';
+import { EmbedListComponent } from './views/embed-list/embed-list.component';
 
 const routes: Routes = [
   {
@@ -23,16 +27,28 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'messages',
-        component: MessagesListComponent
+        path: 'training',
+        component: TrainingListComponent,
       },
       {
-        path: 'messagedetail/:id',
-        component: MessageDetailComponent
+        path: 'messages',
+        component: MessagesListComponent,
+        canActivate: [ManagerGuard],
+      },
+      {
+        path: 'messages/:id',
+        component: MessageDetailComponent,
+        canActivate: [ManagerGuard],
+      },     
+      {
+        path: 'embedded-list',
+        component: EmbedListComponent,
+        canActivate: [ManagerGuard],
       },      
+
       {
         path: 'about',
-        component: AboutComponent
+        component: AboutComponent,
       },
     ]
   },
